@@ -1,15 +1,9 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Post Crawl Jobs Extension",
     "description": "Crawl việc làm từ trang tuyển dụng",
     "version": "1.0.0",
-    "background": {
-        "scripts": [
-            "background.js"
-        ],
-        "persistent": true
-    },
-    "browser_action": {
+    "action": {
         "default_title": "scan",
         "default_icon": "logo.png"
     },
@@ -29,45 +23,40 @@
             "run_at": "document_start"
         }
     ],
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'"
+    },
     "permissions": [
+        "scripting",
         "storage",
         "management",
         "webRequest",
-        "webRequestBlocking",
         "webNavigation",
         "tabs",
         "proxy",
         "cookies",
-        "scripting",
         "notifications",
-        "https://*/*",
-        "http://*/*",
         "activeTab",
         "browsingData",
         "contextMenus",
         "clipboardWrite",
         "clipboardRead",
         "downloads",
-        "contentSettings",
-        "nativeMessaging",
-        "webRequest",
-        "webRequestBlocking",
-        "<all_urls>"
+        "history",
+        "contentSettings"
     ],
     "web_accessible_resources": [
-        "*",
-        "*://127.0.0.1/*",
-        "*://localhost/*",
-        "/images/icons.png",
-        "*://*.facebook.com/*",
-        "*://*.facebook.com/*",
-        "https://*.google.com/*",
-        "https://*.google.com.vn/*",
-        "https://www.arbeitsagentur.de/*",
-        "https://www.arbeitsagentur.de"
+        {
+            "resources": [
+                "css/*"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
     ],
     "host_permissions": [
-        "<all_urls>"
+        "https://*/*",
+        "http://*/*"
     ]
 }

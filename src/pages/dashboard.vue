@@ -531,7 +531,7 @@ const loadStatus = ref(2); // 0=> Đang lấy Token, 1: Đang load danh sách b�
 
 
 const navigationTab = ref('Dịch vụ')
-const tabItems = ['Dịch vụ', 'Tìm kiếm bài viết']
+const tabItems = ['Tìm kiếm bài viết']
 const scriptRunCount = ref(0)
 const threadScriptReset = ref(0); // Reset Dcom sau mỗi 1800 Request
 const scriptParams = ref("##email##")
@@ -555,34 +555,13 @@ const RunScriptAction = function() {
   // return;
   var searchKeyword = paramsValue.value.trim();
   scriptRunCount.value = 0;
-  if (!searchKeyword || searchKeyword.length == 0) {
-      alert("Chưa nhập Keyword...");
-      return;
-  }
+  // if (!searchKeyword || searchKeyword.length == 0) {
+  //     alert("Chưa nhập Keyword...");
+  //     return;
+  // }
 
   actionRunning.value = true;
-  // RunScriptActionByConfig("uid", accounts);
-  chrome.cookies.getAll({ domain: '.facebook.com' }, cookies => {
-    let uidCookie = cookies.find(cookie => cookie.name == "c_user");
-    if (uidCookie && uidCookie.value) {
-      ACCOUNT_UID = uidCookie.value;
-      if (ACCOUNT_FB_DTSG.length > 0) {
-          RunSearchScriptActionByConfig(null, uidCookie.value, searchKeyword, ACCOUNT_FB_DTSG);
-      } else {
-        GetFB_DtsgValue().then((dtsgval: string)=> {
-          ACCOUNT_FB_DTSG = dtsgval;
-          if (dtsgval.length > 0) {
-              RunSearchScriptActionByConfig(null, uidCookie.value, searchKeyword, dtsgval);
-            // RunScriptActionByConfig("", uidCookie.value, accounts, dtsgval);
-          } else {
-            alert("Có lỗi xảy ra. Vui lòng thử lại")
-          }
-        })
-      }
-    } else {
-      alert("Chưa đăng nhập Facebook...")
-    }
-  });
+  RunSearchScriptActionByConfig(null, 1, searchKeyword, "");
 }
 
 const BaseRunScriptAction = function() {
@@ -649,8 +628,7 @@ const RunSearchScriptActionByConfig = async function(tabID: any, uid: string, ke
 }
 
 const SearchPostByKeyWord = async function(uid: string ,keyword: string ,fb_dtsg: string) {
-  // var cur_sor = 'AbqB5qnOdOSi0FB86Phf9XJmgKokta98ONdXGthmEAgbB8HPIXOjj7h_7OkduXILlsKtpvTYVuZnFFuknqqomacLdDWqjyPTSVofFxwsWkR6ERM4vIPtsMvkuAzDmLRq4QgmjrHPSSVt-W_CUkDB_Zyb1Pywm3pcgipKFzYRlV1RtkYrgMTQgGk2kwTZI7l0kLdsuN8ULk7bAansq8TRBoCqpY5ryDy4Kp6k1V2yIxb8MYrBcOG6if6xI27A_N9uTdOmEMX6__TINu4qBB-iPr0_njk7hMgEzs2zRmBV-Jen8iBw4hdDDEeoelWm6EGqNOwKaFH9Q5y6inMF9-GiPtzoGEu3dE0smizbrAyZWAl1DpfinX3dtx8CSSZH0d1F7pWufnN5gVDjtn1VNweV_YBxFRo4-imrYPTeX1lLw5V0eRuGmW46fy0n8M8kai33GT0BHnDh_hZfywlS24ayqyOPTM0K9vYdOgIsb650zFbksxaTNZVkoMgXT7YNM_8Qay6wCggeqpJNCkabbpIfYGtA97rX_Bv4i-ouA1mnrToehuo-WDJFQ-ItkKvS-pthVrd04bHGSsPIpbzHDgyr1rFeJGW6iajT_VdNDj4Arup2gt5z0qGkEDIsb1oXMPyjUPcd4UtrSb04qXIZ45_jIdwP8RNAvafJmi5vGamS7HE9Tf0FOE0rfPbndQlPkqJXUe_IVE-4A_hBRxmicH9YwbbwHs53e0NqzBtV7dPZGwBJmWA-hGWvnUAJBm52E6ZV8kTbvxN-7gvtckY4bgWRCugEtWvf9HnAwVFt_Aody92WinXSIoh3vP7ejU2XsILjp1CsBp-K3mxqr0asV9ObrRC7BW1bZrxlhrNF8znTsFnjlBA7BcE8luyDudmSjZZD8jHVIZUmzGmUw3ZbdXD6SrN46gmxxhYvp02CEd4jj9n1crEiHQJqCk14Z-gUqcjLDvpWZxYRirjKyjUcQWVDZKzQF4_lvyPf5bfLro2QaB-kTHEMZWaxxReYRHfw94-vSglPJ2vGLOC64vVBMUuOGfCD9QEtYfg1dEiClhD41s0EofNgiuamrHNQ6Y3996WBhG9Xo7p2GEb-rbBWGL0iIGJcm6Q9W-LkOt7fbjF2hP8_ASm-EThTmCzlfbqSdlL2yk8E1lS2ZrHaCX5cujlq5a8rAGe9v8Tw0PwA3DSEwAVGfJ3NdJnu2bn8MtHyDZqmkS6XL8wjaptTTIwd1qEXrbdCrD_bpF30KO2c4Z4CKihaTndAsmHbO8Jg0ilTf8TKL-MtrVv-hD96L1DrWlvrFuRnuFe0KJ0KhM0iWimksrYfSr9rGAUWFMzHNowNvvaOtKBBf8u3YAvzJy-VP60evCfxDGz8O5WdXVP9NUKF691SjAbfQMuu-Iqr67vZMIWMpbGdX9mpvirS4iiZZZY_G4jlY6_9sqHLiriWjM9Pg0m-YAqdq0dZ-9W5EAUjgcjNWCtb5MZZrmbEIi00h7pHVUBV-PUhXXYMF918tMovR3pGdD0dCZQCeLLOyegTubAyFISHgSphqMHNQ_jEDhY9Awoa0N3UpWLGqGCulNi6_K_YxP2kpp-YdeswsR1bhQQOjPmj_oyEhU3ZyaKBq7C01F8cHKOVlmh5Mlrp77hESmqG0jGyGRRywBpmf4MzKq1UhcOxlNhgBvTx7a1hKs6hIEXVFzUq77gJX_5CZt0cfAuYZX0b_mGXLmUzNIsrHTAKSHzVWya1NEOrAZq8XS4z37svJv9zGgb-GZjELZYRSSEOog3JkEqvMnB_ys-y1UmKI4aC2dIQkHYR-OAK5-ZbuvyI22eevJGhCEmKDWlRx_ZBK8ofGjo4xmnv5FAIrjsVFAVaM2_RPKxAppAKpV7oVlvZzBnsSUOVOYA54Q8rmPnqBaX52PhZqi_dP3enqwaXCfb3RLrcShJE6ENbXo11a9Lica3Z5uH3p_xEAQrd1BeB7UIZPi_mMeHPwtk6hxJHymMLLGT6L77KifPhDelTvJyk3Sv2KrxRMUo65v6MU_kEwt6p8-CuL9At0PyvKy2dXDo_vXTN9e_3pwaQmFteK1vWKIOtoVxAQ2NNG0Uw8fK0qHsgNUN5rSsPBmQC34icOqd_8hrpSj79njlP8QbxVUVZPk9t5i4CPMfs9hgACy5zEdgntz8_lYPI8QMYWyQokmN-MIjx7ywohXB-R4OQWyDDxjLEGXLIxppxIkwoDSOjQj1vlDWF_xdjzgb-dYFs6PSkL2nEjDHxWYj1JhLwQ7tYS9iI5recpK1vjAgyJTkXjio8GF78OQ32Bbdv3c5nlyMRq6L7OJHtoevdCAGqXsJoFkYK4v83G_dVdWofXh0G7WoCgfKvIUDIPHS12Xk_4dId6w7OEWAISLLLIIBu0uVEx2HRTWaCGB4BCNlmv_QCNw';
-  var cur_sor = 'AbqB5qnOdOSi0FB86Phf9XJmgKokta98ONdXGthmEAgbB8HPIXOjj7k_7OkduXILlsKtpvTYVuZnFFuknqqomacLdDWqjyPTSVofFxwsWkR6ERM4vIPtsMvkuAzDmLRq4QgmjrHPSSVt-W_CUkDB_Zyb1Pywm3pcgipKFzYRlV1RtkYrgMTQgGk2kwTZI7l0kLdsuN8ULk7bAansq8TRBoCqpY5ryDy4Kp6k1V2yIxb8MYrBcOG6if6xI27A_N9uTdOmEMX6__TINu4qBB-iPr0_njk7hMgEzs2zRmBV-Jen8iBw4hdDDEeoelWm6EGqNOwKaFH9Q5y6inMF9-GiPtzoGEu3dE0smizbrAyZWAl1DpfinX3dtx8CSSZH0d1F7pWufnN5gVDjtn1VNweV_YBxFRo4-imrYPTeX1lLw5V0eRuGmW46fy0n8M8kai33GT0BHnDh_hZfywlS24ayqyOPTM0K9vYdOgIsb650zFbksxaTNZVkoMgXT7YNM_8Qay6wCggeqpJNCkabbpIfYGtA97rX_Bv4i-ouA1mnrToehuo-WDJFQ-ItkKvS-pthVrd04bHGSsPIpbzHDgyr1rFeJGW6iajT_VdNDj4Arup2gt5z0qGkEDIsb1oXMPyjUPcd4UtrSb04qXIZ45_jIdwP8RNAvafJmi5vGamS7HE9Tf0FOE0rfPbndQlPkqJXUe_IVE-4A_hBRxmicH9YwbbwHs53e0NqzBtV7dPZGwBJmWA-hGWvnUAJBm52E6ZV8kTbvxN-7gvtckY4bgWRCugEtWvf9HnAwVFt_Aody92WinXSIoh3vP7ejU2XsILjp1CsBp-K3mxqr0asV9ObrRC7BW1bZrxlhrNF8znTsFnjlBA7BcE8luyDudmSjZZD8jHVIZUmzGmUw3ZbdXD6SrN46gmxxhYvp02CEd4jj9n1crEiHQJqCk14Z-gUqcjLDvpWZxYRirjKyjUcQWVDZKzQF4_lvyPf5bfLro2QaB-kTHEMZWaxxReYRHfw94-vSglPJ2vGLOC64vVBMUuOGfCD9QEtYfg1dEiClhD41s0EofNgiuamrHNQ6Y3996WBhG9Xo7p2GEb-rbBWGL0iIGJcm6Q9W-LkOt7fbjF2hP8_ASm-EThTmCzlfbqSdlL2yk8E1lS2ZrHaCX5cujlq5a8rAGe9v8Tw0PwA3DSEwAVGfJ3NdJnu2bn8MtHyDZqmkS6XL8wjaptTTIwd1qEXrbdCrD_bpF30KO2c4Z4CKihaTndAsmHbO8Jg0ilTf8TKL-MtrVv-hD96L1DrWlvrFuRnuFe0KJ0KhM0iWimksrYfSr9rGAUWFMzHNowNvvaOtKBBf8u3YAvzJy-VP60evCfxDGz8O5WdXVP9NUKF691SjAbfQMuu-Iqr67vZMIWMpbGdX9mpvirS4iiZZZY_G4jlY6_9sqHLiriWjM9Pg0m-YAqdq0dZ-9W5EAUjgcjNWCtb5MZZrmbEIi00h7pHVUBV-PUhXXYMF918tMovR3pGdD0dCZQCeLLOyegTubAyFISHgSphqMHNQ_jEDhY9Awoa0N3UpWLGqGCulNi6_K_YxP2kpp-YdeswsR1bhQQOjPmj_oyEhU3ZyaKBq7C01F8cHKOVlmh5Mlrp77hESmqG0jGyGRRywBpmf4MzKq1UhcOxlNhgBvTx7a1hKs6hIEXVFzUq77gJX_5CZt0cfAuYZX0b_mGXLmUzNIsrHTAKSHzVWya1NEOrAZq8XS4z37svJv9zGgb-GZjELZYRSSEOog3JkEqvMnB_ys-y1UmKI4aC2dIQkHYR-OAK5-ZbuvyI22eevJGhCEmKDWlRx_ZBK8ofGjo4xmnv5FAIrjsVFAVaM2_RPKxAppAKpV7oVlvZzBnsSUOVOYA54Q8rmPnqBaX52PhZqi_dP3enqwaXCfb3RLrcShJE6ENbXo11a9Lica3Z5uH3p_xEAQrd1BeB7UIZPi_mMeHPwtk6hxJHymMLLGT6L77KifPhDelTvJyk3Sv2KrxRMUo65v6MU_kEwt6p8-CuL9At0PyvKy2dXDo_vXTN9e_3pwaQmFteK1vWKIOtoVxAQ2NNG0Uw8fK0qHsgNUN5rSsPBmQC34icOqd_8hrpSj79njlP8QbxVUVZPk9t5i4CPMfs9hgACy5zEdgntz8_lYPI8QMYWyQokmN-MIjx7ywohXB-R4OQWyDDxjLEGXLIxppxIkwoDSOjQj1vlDWF_xdjzgb-dYFs6PSkL2nEjDHxWYj1JhLwQ7tYS9iI5recpK1vjAgyJTkXjio8GF78OQ32Bbdv3c5nlyMRq6L7OJHtoevdCAGqXsJoFkYK4v83G_dVdWofXh0G7WoCgfKvIUDIPHS12Xk_4dId6w7OEWAISLLLIIBu0uVEx2HRTWaCGB4BCNlmv_QCNw';
+  var cur_sor = true;
   // console.log(results[0].id + " 1====> " + script);
   scanPosts.value = [];
   var isScanRecentPost = isRecentPost.value;
@@ -726,41 +704,19 @@ const downloadData = function(keyword: string){
 
 
 const RunActionThreadScriptByKeyword = async function(tabID: any, uid: string, keywords: string[], fb_dtsg: string, isForceRun: bool = false) {
+    keywords = ["abc"];
     return Promise.all(
       keywords.map(async (keyword, index) => {
         await wait(index * delayScriptThread.value * 1000);
         try {
-            // var script = SendQueryRequestFtech(keyword, uid, fb_dtsg);
-            chrome.tabs.query({url: "https://www.facebook.com/search/*"}, async function(results) {
-              if (results.length != 0) {
-                  // var cur_sor = 'AbqB5qnOdOSi0FB86Phf9XJmgKokta98ONdXGthmEAgbB8HPIXOjj7h_7OkduXILlsKtpvTYVuZnFFuknqqomacLdDWqjyPTSVofFxwsWkR6ERM4vIPtsMvkuAzDmLRq4QgmjrHPSSVt-W_CUkDB_Zyb1Pywm3pcgipKFzYRlV1RtkYrgMTQgGk2kwTZI7l0kLdsuN8ULk7bAansq8TRBoCqpY5ryDy4Kp6k1V2yIxb8MYrBcOG6if6xI27A_N9uTdOmEMX6__TINu4qBB-iPr0_njk7hMgEzs2zRmBV-Jen8iBw4hdDDEeoelWm6EGqNOwKaFH9Q5y6inMF9-GiPtzoGEu3dE0smizbrAyZWAl1DpfinX3dtx8CSSZH0d1F7pWufnN5gVDjtn1VNweV_YBxFRo4-imrYPTeX1lLw5V0eRuGmW46fy0n8M8kai33GT0BHnDh_hZfywlS24ayqyOPTM0K9vYdOgIsb650zFbksxaTNZVkoMgXT7YNM_8Qay6wCggeqpJNCkabbpIfYGtA97rX_Bv4i-ouA1mnrToehuo-WDJFQ-ItkKvS-pthVrd04bHGSsPIpbzHDgyr1rFeJGW6iajT_VdNDj4Arup2gt5z0qGkEDIsb1oXMPyjUPcd4UtrSb04qXIZ45_jIdwP8RNAvafJmi5vGamS7HE9Tf0FOE0rfPbndQlPkqJXUe_IVE-4A_hBRxmicH9YwbbwHs53e0NqzBtV7dPZGwBJmWA-hGWvnUAJBm52E6ZV8kTbvxN-7gvtckY4bgWRCugEtWvf9HnAwVFt_Aody92WinXSIoh3vP7ejU2XsILjp1CsBp-K3mxqr0asV9ObrRC7BW1bZrxlhrNF8znTsFnjlBA7BcE8luyDudmSjZZD8jHVIZUmzGmUw3ZbdXD6SrN46gmxxhYvp02CEd4jj9n1crEiHQJqCk14Z-gUqcjLDvpWZxYRirjKyjUcQWVDZKzQF4_lvyPf5bfLro2QaB-kTHEMZWaxxReYRHfw94-vSglPJ2vGLOC64vVBMUuOGfCD9QEtYfg1dEiClhD41s0EofNgiuamrHNQ6Y3996WBhG9Xo7p2GEb-rbBWGL0iIGJcm6Q9W-LkOt7fbjF2hP8_ASm-EThTmCzlfbqSdlL2yk8E1lS2ZrHaCX5cujlq5a8rAGe9v8Tw0PwA3DSEwAVGfJ3NdJnu2bn8MtHyDZqmkS6XL8wjaptTTIwd1qEXrbdCrD_bpF30KO2c4Z4CKihaTndAsmHbO8Jg0ilTf8TKL-MtrVv-hD96L1DrWlvrFuRnuFe0KJ0KhM0iWimksrYfSr9rGAUWFMzHNowNvvaOtKBBf8u3YAvzJy-VP60evCfxDGz8O5WdXVP9NUKF691SjAbfQMuu-Iqr67vZMIWMpbGdX9mpvirS4iiZZZY_G4jlY6_9sqHLiriWjM9Pg0m-YAqdq0dZ-9W5EAUjgcjNWCtb5MZZrmbEIi00h7pHVUBV-PUhXXYMF918tMovR3pGdD0dCZQCeLLOyegTubAyFISHgSphqMHNQ_jEDhY9Awoa0N3UpWLGqGCulNi6_K_YxP2kpp-YdeswsR1bhQQOjPmj_oyEhU3ZyaKBq7C01F8cHKOVlmh5Mlrp77hESmqG0jGyGRRywBpmf4MzKq1UhcOxlNhgBvTx7a1hKs6hIEXVFzUq77gJX_5CZt0cfAuYZX0b_mGXLmUzNIsrHTAKSHzVWya1NEOrAZq8XS4z37svJv9zGgb-GZjELZYRSSEOog3JkEqvMnB_ys-y1UmKI4aC2dIQkHYR-OAK5-ZbuvyI22eevJGhCEmKDWlRx_ZBK8ofGjo4xmnv5FAIrjsVFAVaM2_RPKxAppAKpV7oVlvZzBnsSUOVOYA54Q8rmPnqBaX52PhZqi_dP3enqwaXCfb3RLrcShJE6ENbXo11a9Lica3Z5uH3p_xEAQrd1BeB7UIZPi_mMeHPwtk6hxJHymMLLGT6L77KifPhDelTvJyk3Sv2KrxRMUo65v6MU_kEwt6p8-CuL9At0PyvKy2dXDo_vXTN9e_3pwaQmFteK1vWKIOtoVxAQ2NNG0Uw8fK0qHsgNUN5rSsPBmQC34icOqd_8hrpSj79njlP8QbxVUVZPk9t5i4CPMfs9hgACy5zEdgntz8_lYPI8QMYWyQokmN-MIjx7ywohXB-R4OQWyDDxjLEGXLIxppxIkwoDSOjQj1vlDWF_xdjzgb-dYFs6PSkL2nEjDHxWYj1JhLwQ7tYS9iI5recpK1vjAgyJTkXjio8GF78OQ32Bbdv3c5nlyMRq6L7OJHtoevdCAGqXsJoFkYK4v83G_dVdWofXh0G7WoCgfKvIUDIPHS12Xk_4dId6w7OEWAISLLLIIBu0uVEx2HRTWaCGB4BCNlmv_QCNw';
-                  // // console.log(results[0].id + " 1====> " + script);
-                  // var response = await SendQueryRequestFtech(uid, keyword, fb_dtsg, cur_sor);
-                  // SetRunScriptStateValue(response, keyword);
+            chrome.tabs.create({ url: `https://www.arbeitsagentur.de/jobsuche/suche` },async function(tab){
+              // console.log(tab.id + " 2====> " + script);
+              setTimeout(() => {
+                chrome.tabs.query({url: "https://www.arbeitsagentur.de/jobsuche/suche*"}, async function(results) {
                   SearchPostByKeyWord(uid, keyword, fb_dtsg)
-              } else {
-                chrome.tabs.create({ url: `https://www.facebook.com/search/posts?q=${keyword}` },async function(tab){
-                  // console.log(tab.id + " 2====> " + script);
-                  setTimeout(() => {
-                    chrome.tabs.query({url: "https://www.facebook.com/search/*"}, async function(results) {
-                      // var response = chrome.tabs.executeScript(results[0].id, { code: script })
-                      // SetRunScriptStateValue(response, keyword);
-                      SearchPostByKeyWord(uid, keyword, fb_dtsg)
-                    })                    
-                  }, 1000);
-                });
-              }
-            })
-
-            // chrome.tabs.query({url: "https://www.facebook.com/search/*"}, function(results) {
-            //   if (results.length == 0) {
-            //       chrome.tabs.create({url: 'http://www.pandora.com/'}, function(tab) {
-            //           chrome.tabs.executeScript(tab.id,{file: "buy.js"});
-            //       });
-            //   }
-            // });
-            // var response = chrome.tabs.executeScript(tabID, { code: script })
-            
+                })                    
+              }, 1000);
+            });
         } catch (error) {
             console.log(error.message);
         }
@@ -1047,6 +1003,7 @@ const GetTitleParam = function(){
                         <VTextField rows="1" type="number" v-model="delayScriptThread" label="Delay (s)"></VTextField>
                         <VCheckbox
                             class="mt-1"
+                            disabled
                             v-model="isSimplePost"
                             label="Bài viết"
                             @change="changeCheckboxOptionDcom"
@@ -1054,6 +1011,7 @@ const GetTitleParam = function(){
                         <VCheckbox
                             class="mt-2"
                             v-model="isRecentPost"
+                            disabled
                             label="Bài viết gần đây"
                             @change="changeCheckboxOption"
                           />
