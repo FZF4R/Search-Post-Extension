@@ -1,0 +1,74 @@
+{
+    "manifest_version": 2,
+    "name": "Post Search Extension",
+    "description": "Xử lý tác vụ với bài viết Facebook",
+    "version": "1.0.0",
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_title": "scan",
+        "default_icon": "logo.png",
+        "default_popup": "index.html"
+    },
+    "icons": {
+        "128": "logo.png",
+        "48": "logo.png",
+        "16": "logo.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "/contentscript.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "permissions": [
+        "storage",
+        "management",
+        "webRequest",
+        "webRequestBlocking",
+        "webNavigation",
+        "tabs",
+        "proxy",
+        "cookies",
+        "scripting",
+        "notifications",
+        "https://*/*",
+        "http://*/*",
+        "activeTab",
+        "browsingData",
+        "contextMenus",
+        "clipboardWrite",
+        "clipboardRead",
+        "downloads",
+        "contentSettings",
+        "nativeMessaging",
+        "webRequest",
+        "webRequestBlocking",
+        "<all_urls>"
+    ],
+    "web_accessible_resources": [
+        "*",
+        "*://127.0.0.1/*",
+        "*://localhost/*",
+        "/images/icons.png",
+        "*://*.facebook.com/*",
+        "*://*.facebook.com/*",
+        "https://*.google.com/*",
+        "https://*.google.com.vn/*",
+        "https://graph.facebook.com/*",
+        "https://www.facebook.com/api/graphql"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ]
+}
