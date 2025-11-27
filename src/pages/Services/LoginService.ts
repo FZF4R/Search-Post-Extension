@@ -109,9 +109,9 @@ export const SendQueryRequestFtech = async function (accountUID: string, keyWord
   });
   const searchkeyword = keyWord;  
 
-  var body = `angebotsart=1&page=1&size=100&pav=false&facetten=veroeffentlichtseit,arbeitszeit,arbeitsort`;
+  var body = `angebotsart=1&page=1&size=50&pav=false&facetten=veroeffentlichtseit,arbeitszeit,arbeitsort`;
 
-  let response = await fetch(apiUrl, {
+  let response = await fetch('https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v6/jobs?', {
     method: 'POST',
     headers: headers,
     body: body,

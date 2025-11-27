@@ -1,21 +1,6 @@
-chrome.browserAction.onClicked.addListener(function() {
-  _TabCreateOrFocus(chrome.extension.getURL("/index.html"));
+chrome.action.onClicked.addListener(function() {
+  chrome.tabs.create({ url: chrome.runtime.getURL("index.html") });
 });
-
-function _TabCreateOrFocus(url) {
-chrome.tabs.query({ url: url }, function(tab) {
-  if (tab.length) {
-    chrome.tabs.update(tab[0].id, {
-      active: true
-    });
-  } else {
-    chrome.tabs.create({
-      url: url,
-      active: true
-    });
-  }
-});
-}
 
 chrome.webRequest.onBeforeSendHeaders.addListener(
 function (info) {
@@ -79,6 +64,6 @@ function (details) {
     return { responseHeaders: details.responseHeaders };
 },
 {
-    urls: ["https://*.facebook.com/*", "https://*.messenger.com/*"]
+    urls: ["https://*.arbeitsagentur.de/*", "https://*.arbeitsagentur.de/*"]
 },
 );
