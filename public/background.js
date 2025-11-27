@@ -25,10 +25,10 @@ function (info) {
       let item = headers[index];
       var hostname = (new URL(info.url)).hostname;
       if (item.name.toLowerCase() == 'referer' && item.value.toLowerCase().match("chrome-extension") == null) {
-          item.value = "https://www.facebook.com";
+          item.value = "https://www.arbeitsagentur.de";
       }
       if (item.name.toLowerCase() == 'origin') {
-          item.value = "https://www.facebook.com";
+          item.value = "https://www.arbeitsagentur.de";
       }
       if (item) {
           NewHeaders.push(item)
@@ -38,7 +38,7 @@ function (info) {
     let isValidReferer = headers.map(x=>x.name.toLowerCase()).indexOf("referer");
     if (!isValidReferer) {
       let refererHeaderItem = {
-        value: "https://www.facebook.com",
+        value: "https://www.arbeitsagentur.de",
         name: "Referer"
       }
 
@@ -51,8 +51,8 @@ function (info) {
 },
 {
     urls: [
-        "https://*.facebook.com/*",
-        "https://graph.facebook.com/*",
+        "https://*.arbeitsagentur.de/*",
+        "https://arbeitsagentur.de/*",
     ],
     types: ["main_frame", "sub_frame", "xmlhttprequest"]
 }, ["blocking", "requestHeaders", "extraHeaders"]

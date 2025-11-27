@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "Post Search Extension",
-    "description": "Xử lý tác vụ với bài viết Facebook",
+    "name": "Post Crawl Jobs Extension",
+    "description": "Crawl việc làm từ trang tuyển dụng",
     "version": "1.0.0",
     "background": {
         "scripts": [
@@ -64,8 +64,8 @@
         "*://*.facebook.com/*",
         "https://*.google.com/*",
         "https://*.google.com.vn/*",
-        "https://graph.facebook.com/*",
-        "https://www.facebook.com/api/graphql"
+        "https://www.arbeitsagentur.de/*",
+        "https://www.arbeitsagentur.de"
     ],
     "host_permissions": [
         "<all_urls>"
